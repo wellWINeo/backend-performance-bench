@@ -1,11 +1,11 @@
 package com.example.todo.service.impl;
 
-import com.example.todo.entity.TodoEntity;
+import com.example.todo.core.TodoEntity;
 import com.example.todo.repository.Todo;
 
 import java.util.List;
 
-public class TodoMappers {
+class TodoMappers {
     public static Todo ToData(TodoEntity todo) {
         return new Todo(
                 todo.getId(),

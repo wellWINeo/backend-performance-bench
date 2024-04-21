@@ -1,6 +1,7 @@
 package com.example.todo.service.impl;
 
-import com.example.todo.entity.TodoEntity;
+import com.example.todo.core.TodoEntity;
+import com.example.todo.core.TodoNotFoundException;
 import com.example.todo.repository.TodoRepository;
 import com.example.todo.service.TodoService;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,11 @@ public class TodoServiceImpl implements TodoService {
         var data = TodoMappers.ToData(todo);
 
         data = todoRepository.save(data);
-        data = todoRepository.getById(data.getId()).orElseThrow();
+
+        var saved = todoRepository.getById(data.getId());
+        if (saved.isEmpty()) {
+            throw new TodoNotFoundException(data.getId());
+        }
 
         return TodoMappers.ToEntity(data);
     }
@@ -35,6 +40,10 @@ public class TodoServiceImpl implements TodoService {
 
     @Override
     public void setIsDone(int id) {
-        todoRepository.updateTodoSetIsDoneTrue(id);
+        var rowsAffected = todoRepository.updateTodoSetIsDoneTrue(id);
+
+        if (rowsAffected == 0) {
+            throw new TodoNotFoundException(id);
+        }
     }
 }

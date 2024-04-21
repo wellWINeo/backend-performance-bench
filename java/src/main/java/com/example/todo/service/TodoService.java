@@ -1,6 +1,7 @@
 package com.example.todo.service;
 
-import com.example.todo.entity.TodoEntity;
+import com.example.todo.core.TodoEntity;
+import com.example.todo.core.TodoNotFoundException;
 
 import java.util.List;
 

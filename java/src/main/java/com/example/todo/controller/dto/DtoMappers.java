@@ -1,6 +1,6 @@
 package com.example.todo.controller.dto;
 
-import com.example.todo.entity.TodoEntity;
+import com.example.todo.core.TodoEntity;
 
 import java.util.List;
 
