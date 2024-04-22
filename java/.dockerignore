@@ -7,3 +7,6 @@ build
 HELP.md
 run.ps1
 startup-postgres.sh
+
+### Do not include application.properties to image
+src/main/resources/application.properties

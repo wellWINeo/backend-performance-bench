@@ -16,9 +16,3 @@ Accept: application/json
 
 ### Mark as done
 DELETE {{url}}/api/todos/52
-
-### test
-POST {{url}}/api/todos/
-Content-Type: application/json
-
-{"title":"4ZNXgRmaEdQ6ySJLj","description":"yj1MJr kxSypadMS20usIh","deadlineAt":"2024-04-28T17:04:17.044Z"}

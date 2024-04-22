@@ -14,7 +14,7 @@ import java.util.Date;
 @AllArgsConstructor()
 public class Todo {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private Date createdAt;
