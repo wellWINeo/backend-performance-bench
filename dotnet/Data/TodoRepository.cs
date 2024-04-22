@@ -48,7 +48,7 @@ internal class TodoRepository(TodoDbContext context) : ITodoRepository
         return data.ToEntity();
     }
 
-    public Task Delete(int id) => context.Set<Models.Todo>()
+    public async Task<bool> Delete(int id) => await context.Set<Models.Todo>()
         .Where(t => t.Id == id)
-        .ExecuteDeleteAsync();
+        .ExecuteDeleteAsync() != 0;
 }

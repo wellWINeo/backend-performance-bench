@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    environment:
+      - ASPNETCORE_URLS=http://*:8080
+      - ConnectionStrings__Database=Host=db; Port=5432; Database=tododb; Username=dotnet; Password=123
+    depends_on:
+      - db
+
+  db:
+    image: postgres:16
+    environment:
+      - POSTGRES_USER=dotnet
+      - POSTGRES_PASSWORD=123
+      - POSTGRES_DB=tododb

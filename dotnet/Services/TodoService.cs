@@ -1,5 +1,6 @@
 using Todo.Core.Abstract.Repositories;
 using Todo.Core.Abstract.Services;
+using Todo.Core.Exceptions;
 using Todo.Core.Models;
 
 namespace Todo.Services;
@@ -15,11 +16,9 @@ public class TodoService(ITodoRepository todoRepository) : ITodoService
 
     public async Task SetDone(int id)
     {
-        var todo = await todoRepository.Get(id) 
-            ?? throw new Exception("Todo not found");
+        var isDeleted = await todoRepository.Delete(id);
 
-        todo.IsDone = true;
-
-        await todoRepository.Update(todo);
+        if (!isDeleted)
+            throw new TodoNotFoundException(id);
     }
 }

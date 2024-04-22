@@ -21,8 +21,15 @@ builder.Services.AddScoped<ITodoService, TodoService>();
 
 var app = builder.Build();
 
-app.MapPost("/api/todos", Create.Execute);
-app.MapGet("/api/todos", GetAll.Execute);
-app.MapDelete("/api/todos/{id:int}", Delete.Execute);
+var routeBuilder = app.MapGroup("/api/todos/");
+routeBuilder.MapPost("/", Create.Execute);
+routeBuilder.MapGet("/", GetAll.Execute);
+routeBuilder.MapDelete("{id:int}", Delete.Execute);
 
-app.Run();
+// applying migrations
+using var scope = app.Services.CreateScope();
+var dbContext = scope.ServiceProvider.GetRequiredService<TodoDbContext>();
+
+await dbContext.Database.MigrateAsync();
+
+await app.RunAsync();

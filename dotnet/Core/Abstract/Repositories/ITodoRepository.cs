@@ -9,5 +9,5 @@ public interface ITodoRepository
     Task<TodoEntity?> Get(int id);
     Task<ICollection<TodoEntity>> GetAll();
     Task<TodoEntity> Update(TodoEntity data);
-    Task Delete(int id);
+    Task<bool> Delete(int id);
 }

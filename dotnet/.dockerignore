@@ -1,0 +1,8 @@
+Properties
+.gitignore
+appsettings*.json
+docker-compose.yml
+Dockerfile
+global.json
+*.ps1
+*.sh
