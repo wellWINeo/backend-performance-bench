@@ -12,7 +12,8 @@ services:
       - SPRING_DATASOURCE_USERNAME=java
       - SPRING_DATASOURCE_PASSWORD=123
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
   db:
     image: postgres:16
@@ -20,3 +21,5 @@ services:
       - POSTGRES_USER=java
       - POSTGRES_PASSWORD=123
       - POSTGRES_DB=tododb
+    healthcheck:
+      test: pg_isready -d tododb -U java

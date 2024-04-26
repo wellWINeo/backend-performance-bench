@@ -11,7 +11,8 @@ services:
       - ASPNETCORE_URLS=http://*:8080
       - ConnectionStrings__Database=Host=db; Port=5432; Database=tododb; Username=dotnet; Password=123
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
   db:
     image: postgres:16
@@ -19,3 +20,5 @@ services:
       - POSTGRES_USER=dotnet
       - POSTGRES_PASSWORD=123
       - POSTGRES_DB=tododb
+    healthcheck:
+      test: pg_isready -d tododb -U dotnet  
