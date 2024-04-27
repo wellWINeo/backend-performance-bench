@@ -16,6 +16,7 @@ services:
 
   db:
     image: postgres:16
+    entrypoint: docker-entrypoint.sh -c max_connections=10000
     environment:
       - POSTGRES_USER=dotnet
       - POSTGRES_PASSWORD=123

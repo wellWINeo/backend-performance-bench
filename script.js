@@ -4,8 +4,8 @@ import { sleep } from 'k6';
 const url = 'http://localhost:8080';
 
 export const options = {
-  vus: 10000,
-  duration: '60s',
+  vus: 1000,
+  duration: '120s',
 };
 
 function getRandomString(maximumLength) {
@@ -53,7 +53,7 @@ export const doneTodo = () => {
 //
 export default function () {
   createTodo();
-  // doneTodo();
+  doneTodo();
 
   sleep(1);
 }

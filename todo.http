@@ -15,4 +15,4 @@ GET {{url}}/api/todos/
 Accept: application/json
 
 ### Mark as done
-DELETE {{url}}/api/todos/52
+DELETE {{url}}/api/todos/1

@@ -12,4 +12,4 @@ WORKDIR /app
 COPY --from=BUILDER /source/todoapp .
 EXPOSE 8080
 USER nonroot:nonroot
-ENTRYPOINT ["todoapp"]
+ENTRYPOINT ["/app/todoapp"]
