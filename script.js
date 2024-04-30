@@ -1,11 +1,29 @@
 import http from 'k6/http';
-import { sleep } from 'k6';
+import { check, group } from 'k6';
 
 const url = 'http://localhost:8080';
 
 export const options = {
-  vus: 1000,
-  duration: '120s',
+  executor: 'ramping-arrival-rate',
+  stages: [
+    { duration: '1m', target: 2000 },
+    { duration: '4m', target: 10000 },
+  ],
+  thresholds: {
+    http_req_failed: [
+      {
+        threshold: 'rate < 0.05',
+        abortOnFail: true
+      }
+    ],
+    http_req_duration: [
+      {
+        threshold: 'p(95)<1000',
+        abortOnFail: true
+      }
+
+    ],
+  }
 };
 
 function getRandomString(maximumLength) {
@@ -21,39 +39,38 @@ function getRandomString(maximumLength) {
   return title;
 }
 
-export const createTodo = () => {
-  const deadlineAt = new Date();
 
-  deadlineAt.setDate(deadlineAt.getDate() + 7);
+export default function () {
 
-  const paylod = JSON.stringify({
-    title: getRandomString(50),
-    description: getRandomString(200),
-    deadlineAt: deadlineAt.toISOString(),
+  group('Create Todo', () => {
+    const deadlineAt = new Date();
+
+    deadlineAt.setDate(deadlineAt.getDate() + 7);
+
+    const paylod = JSON.stringify({
+      title: getRandomString(50),
+      description: getRandomString(200),
+      deadlineAt: deadlineAt.toISOString(),
+    });
+
+    const res = http.post(`${url}/api/todos/`, paylod, { headers: { 'Content-Type': 'application/json' } });
+
+    check(res, {
+      'is ok': (r) => r.status === 200 || r.status === 201,
+      'is created': (r) => !!(+r.json('id'))
+    });
   });
 
-  http.post(`${url}/api/todos/`, paylod, { headers: { 'Content-Type': 'application/json' } });
-}
+  group('Get all and delete once', () => {
+    const response = http.get(`${url}/api/todos/`, { headers: { 'Accept': 'application/json' } });
 
-export const doneTodo = () => {
-  const response = http.get(`${url}/api/todos/`, { headers: { 'Accept': 'application/json' } });
+    const allTodos = response.json();
+    const pickedTodo = allTodos[Math.floor(Math.random() * allTodos.length)];
 
-  const allTodos = response.json();
-  const pickedTodo = allTodos[Math.floor(Math.random() * allTodos.length)];
+    if (!pickedTodo) return;
 
-  if (!pickedTodo) return;
+    const res = http.del(`${url}/api/todos/${pickedTodo.id}`);
 
-  http.del(`${url}/api/todos/${pickedTodo.id}`);
-}
-
-// The function that defines VU logic.
-//
-// See https://grafana.com/docs/k6/latest/examples/get-started-with-k6/ to learn more
-// about authoring k6 scripts.
-//
-export default function () {
-  createTodo();
-  doneTodo();
-
-  sleep(1);
+    check(res, { 'done': (r) => r.status === 200 || r.status === 404 });
+  });
 }
