@@ -5,14 +5,14 @@
     <nixpkgs/nixos/modules/profiles/qemu-guest.nix>
   ];
 
-  boot = {
-    growPartition = true;
-    kernelParams = [ "console=ttyS0" ];
-    loader = {
-      grub.device = "/dev/vda";
-      timeout = 0;
-    };
-  };
+#  boot = {
+#    growPartition = true;
+#    kernelParams = [ "console=ttyS0" ];
+#    loader = {
+#      grub.device = "/dev/vda";
+#      timeout = 0;
+#    };
+#  };
 
   networking.firewall = {
     enable = true;

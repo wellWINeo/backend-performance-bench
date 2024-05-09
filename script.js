@@ -7,7 +7,7 @@ export const options = {
   executor: 'ramping-arrival-rate',
   stages: [
     { duration: '1m', target: 2000 },
-    { duration: '4m', target: 10000 },
+    { duration: '4m', target: 20000 },
   ],
   thresholds: {
     http_req_failed: [
@@ -16,6 +16,12 @@ export const options = {
         abortOnFail: true
       }
     ],
+    http_req_duration: [
+      {
+        threshold: 'p(80) < 5000',
+        abortOnFail: true
+      }
+    ]
   }
 };
 
