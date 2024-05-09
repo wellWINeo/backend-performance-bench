@@ -8,8 +8,11 @@ services:
     ports:
       - 8080:8080
     environment:
-      - ASPNETCORE_URLS=http://*:8080
-      - ConnectionStrings__Database=Host=db; Port=5432; Database=tododb; Username=dotnet; Password=123
+      - TODOAPP_DB_HOST=db
+      - TODOAPP_DB_PORT=5432
+      - TODOAPP_DB_USER=nodejs
+      - TODOAPP_DB_PASSWORD=123
+      - TODOAPP_DB_DATABASE=tododb
     depends_on:
       db:
         condition: service_healthy
@@ -18,10 +21,10 @@ services:
     image: postgres:16
     entrypoint: docker-entrypoint.sh -c max_connections=10000
     environment:
-      - POSTGRES_USER=dotnet
+      - POSTGRES_USER=nodejs
       - POSTGRES_PASSWORD=123
       - POSTGRES_DB=tododb
     healthcheck:
       interval: 5s
       retries: 5
-      test: pg_isready -d tododb -U dotnet  
+      test: pg_isready -d tododb -U nodejs

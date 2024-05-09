@@ -23,4 +23,6 @@ services:
       - POSTGRES_PASSWORD=123
       - POSTGRES_DB=tododb
     healthcheck:
+      interval: 5s
+      retries: 5
       test: pg_isready -d tododb -U java

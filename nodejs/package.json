@@ -1,0 +1,26 @@
+{
+  "name": "nodejs",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "tsc -w & node --watch --experimental-modules --no-warnings --experimental-specifier-resolution=node dist/main.js",
+    "serve": "node dist/main.js",
+    "migrate": "node migrate.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/dotenv": "^8.2.0",
+    "@types/express": "^4.17.21",
+    "dotenv": "^16.4.5",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "pg": "^8.11.5",
+    "typeorm": "^0.3.20"
+  }
+}

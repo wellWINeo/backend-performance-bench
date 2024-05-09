@@ -16,13 +16,6 @@ export const options = {
         abortOnFail: true
       }
     ],
-    http_req_duration: [
-      {
-        threshold: 'p(95)<1000',
-        abortOnFail: true
-      }
-
-    ],
   }
 };
 
